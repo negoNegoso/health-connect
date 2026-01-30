@@ -306,7 +306,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "doctor" | "nurse" | "agent"
+      app_role: "doctor" | "nurse" | "agent" | "director"
     }
     CompositeTypes: {
       [_ in never]: never

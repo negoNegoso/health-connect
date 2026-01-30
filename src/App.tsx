@@ -15,6 +15,7 @@ import MedicalRecords from "./pages/MedicalRecords";
 import BuscaAtiva from "./pages/BuscaAtiva";
 import Territory from "./pages/Territory";
 import Communication from "./pages/Communication";
+import DirectorDashboard from "./pages/DirectorDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -99,9 +100,20 @@ function AppRoutes() {
       <Route
         path="/communication"
         element={
-          <ProtectedRoute allowedRoles={["doctor", "nurse", "agent"]}>
+          <ProtectedRoute allowedRoles={["doctor", "nurse", "agent", "director"]}>
             <AppLayout>
               <Communication />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/director-dashboard"
+        element={
+          <ProtectedRoute allowedRoles={["director"]}>
+            <AppLayout>
+              <DirectorDashboard />
             </AppLayout>
           </ProtectedRoute>
         }

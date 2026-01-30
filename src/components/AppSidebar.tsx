@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Heart, Users, Calendar, FileText, ClipboardList, Map, LogOut, Home, MessageSquare } from "lucide-react";
+import { Heart, Users, Calendar, FileText, ClipboardList, Map, LogOut, Home, MessageSquare, PieChart } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -40,12 +40,18 @@ const menuItems = {
     { title: "Minha Área", url: "/territory", icon: Map },
     { title: "Comunicação", url: "/communication", icon: MessageSquare },
   ],
+  director: [
+    { title: "Início", url: "/", icon: Home },
+    { title: "Painel Analítico", url: "/director-dashboard", icon: PieChart },
+    { title: "Comunicação", url: "/communication", icon: MessageSquare },
+  ],
 };
 
 const roleLabels = {
   doctor: "Médico(a)",
   nurse: "Enfermeiro(a)",
   agent: "Agente de Saúde",
+  director: "Diretor(a) de Saúde",
 };
 
 export function AppSidebar() {
