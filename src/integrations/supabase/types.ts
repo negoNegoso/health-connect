@@ -199,6 +199,8 @@ export type Database = {
           created_at: string
           full_name: string
           id: string
+          latitude: number | null
+          longitude: number | null
           manual_priority: string | null
           phone: string | null
           territory: string | null
@@ -210,6 +212,8 @@ export type Database = {
           created_at?: string
           full_name: string
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           manual_priority?: string | null
           phone?: string | null
           territory?: string | null
@@ -221,6 +225,8 @@ export type Database = {
           created_at?: string
           full_name?: string
           id?: string
+          latitude?: number | null
+          longitude?: number | null
           manual_priority?: string | null
           phone?: string | null
           territory?: string | null
@@ -434,7 +440,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["doctor", "nurse", "agent"],
+      app_role: ["doctor", "nurse", "agent", "director"],
     },
   },
 } as const

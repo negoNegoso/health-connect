@@ -111,6 +111,7 @@ export default function Login() {
     doctor: { label: "Médico(a)", icon: <Stethoscope className="h-4 w-4" /> },
     nurse: { label: "Enfermeiro(a)", icon: <UserCheck className="h-4 w-4" /> },
     agent: { label: "Agente de Saúde", icon: <Users className="h-4 w-4" /> },
+    director: { label: "Diretor(a)", icon: <Users className="h-4 w-4" /> },
   };
 
   return (

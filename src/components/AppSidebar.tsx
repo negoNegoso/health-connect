@@ -60,7 +60,7 @@ export function AppSidebar() {
   const location = useLocation();
   const { role, profile, signOut } = useAuth();
 
-  const items = role ? menuItems[role] : [];
+  const items = (role && menuItems[role as keyof typeof menuItems]) || [];
   const isActive = (path: string) => location.pathname === path;
 
   const getInitials = (name: string) => {
