@@ -31,7 +31,8 @@ export default function Appointments() {
   const [patientId, setPatientId] = useState("");
   const [date, setDate] = useState<Date>();
   const [notes, setNotes] = useState("");
-  
+  const [priority, setPriority] = useState<string>("auto");
+
   const { profile } = useAuth();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -47,7 +48,7 @@ export default function Appointments() {
           doctor:profiles!appointments_doctor_id_fkey(full_name)
         `)
         .order("scheduled_date", { ascending: true });
-      
+
       if (error) throw error;
       return data;
     },
@@ -60,7 +61,7 @@ export default function Appointments() {
         .from("patients")
         .select("id, full_name")
         .order("full_name");
-      
+
       if (error) throw error;
       return data;
     },
@@ -69,15 +70,23 @@ export default function Appointments() {
   const createMutation = useMutation({
     mutationFn: async () => {
       if (!profile || !date) throw new Error("Dados inválidos");
-      
-      const { error } = await supabase.from("appointments").insert({
+
+      const { error: appointmentError } = await supabase.from("appointments").insert({
         patient_id: patientId,
         doctor_id: profile.user_id,
         scheduled_date: date.toISOString(),
         notes,
       });
-      
-      if (error) throw error;
+
+      if (appointmentError) throw appointmentError;
+
+      // Update patient priority
+      const { error: priorityError } = await supabase
+        .from("patients")
+        .update({ manual_priority: priority === "auto" ? null : priority })
+        .eq("id", patientId);
+
+      if (priorityError) throw priorityError;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
@@ -107,6 +116,7 @@ export default function Appointments() {
     setPatientId("");
     setDate(undefined);
     setNotes("");
+    setPriority("auto");
     setIsOpen(false);
   };
 
@@ -176,6 +186,21 @@ export default function Appointments() {
                       />
                     </PopoverContent>
                   </Popover>
+                </div>
+                <div className="space-y-2">
+                  <Label>Prioridade do Paciente (Território)</Label>
+                  <Select value={priority} onValueChange={setPriority}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione a prioridade" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="auto">Automático (Padrão)</SelectItem>
+                      <SelectItem value="green">Verde (Baixa)</SelectItem>
+                      <SelectItem value="yellow">Amarelo (Média)</SelectItem>
+                      <SelectItem value="orange">Laranja (Alta)</SelectItem>
+                      <SelectItem value="red">Vermelho (Urgente)</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="notes">Observações</Label>

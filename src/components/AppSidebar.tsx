@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { Heart, Users, Calendar, FileText, ClipboardList, Map, LogOut, Home } from "lucide-react";
+import { Heart, Users, Calendar, FileText, ClipboardList, Map, LogOut, Home, MessageSquare, PieChart } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -26,16 +26,24 @@ const menuItems = {
     { title: "Pacientes", url: "/patients", icon: Users },
     { title: "Consultas", url: "/appointments", icon: Calendar },
     { title: "Prontuários", url: "/records", icon: FileText },
+    { title: "Comunicação", url: "/communication", icon: MessageSquare },
   ],
   nurse: [
     { title: "Início", url: "/", icon: Home },
     { title: "Pacientes", url: "/patients", icon: Users },
     { title: "Consultas", url: "/appointments", icon: Calendar },
     { title: "Busca Ativa", url: "/busca-ativa", icon: ClipboardList },
+    { title: "Comunicação", url: "/communication", icon: MessageSquare },
   ],
   agent: [
     { title: "Início", url: "/", icon: Home },
     { title: "Minha Área", url: "/territory", icon: Map },
+    { title: "Comunicação", url: "/communication", icon: MessageSquare },
+  ],
+  director: [
+    { title: "Início", url: "/", icon: Home },
+    { title: "Painel Analítico", url: "/director-dashboard", icon: PieChart },
+    { title: "Comunicação", url: "/communication", icon: MessageSquare },
   ],
 };
 
@@ -43,6 +51,7 @@ const roleLabels = {
   doctor: "Médico(a)",
   nurse: "Enfermeiro(a)",
   agent: "Agente de Saúde",
+  director: "Diretor(a) de Saúde",
 };
 
 export function AppSidebar() {
@@ -87,9 +96,9 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                    <NavLink 
-                      to={item.url} 
-                      end 
+                    <NavLink
+                      to={item.url}
+                      end
                       className="hover:bg-accent/50"
                       activeClassName="bg-accent text-accent-foreground font-medium"
                     >
@@ -125,8 +134,8 @@ export function AppSidebar() {
             )}
           </div>
         )}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           size={collapsed ? "icon" : "default"}
           className="w-full"
           onClick={signOut}
